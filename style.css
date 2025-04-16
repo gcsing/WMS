@@ -1,0 +1,608 @@
+/* Inspired by Claude Dark Theme */
+:root {
+  --bg-main: #202123;         /* Dark background */
+  --bg-controls: #303134;      /* Slightly lighter background for controls/list */
+  --text-primary: #EAE6DF;     /* Off-white for main text */
+  --text-secondary: #B0B0B0;   /* Lighter grey for less important text */
+  --accent-color: #D97706;     /* Warm orange/brown accent */
+  --accent-text: #FFFFFF;      /* Text on accent background */
+  --border-color: #444447;     /* Subtle border color */
+  --error-color: #F87171;      /* Red for errors */
+  --success-color: #34D399;    /* Green for success/price */
+  --warning-color: #FBBF24;    /* Yellow for warnings */
+  --button-secondary-bg: #525255; /* Dark grey for secondary buttons */
+  --button-secondary-hover: #636366;
+  --button-disabled-bg: #404144;
+  --button-disabled-text: #777;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; /* Common modern font stack */
+    padding: 15px;
+    background-color: var(--bg-main);
+    color: var(--text-secondary); /* Default text color */
+    font-size: 16px; /* Slightly larger base font */
+    line-height: 1.5;
+}
+
+h1, h2 {
+    color: var(--text-primary);
+    text-align: center;
+    font-weight: 500; /* Less heavy than default bold */
+}
+h1 {
+    font-size: 2em; /* Larger main title */
+    margin-bottom: 0.8em;
+}
+h2 {
+    font-size: 1.3em;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.controls {
+    text-align: center;
+    margin-bottom: 30px; /* More space below controls */
+    padding: 20px;
+    background-color: var(--bg-controls);
+    border-radius: 8px; /* Slightly more rounded */
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Subtle shadow */
+}
+
+.file-upload-area,
+.manual-entry-area,
+.action-buttons-area {
+    margin-bottom: 18px; /* Consistent spacing */
+}
+.action-buttons-area {
+     margin-top: 15px;
+     display: flex; /* Use flexbox for alignment */
+     justify-content: center; /* Center buttons */
+     align-items: center; /* Align items vertically */
+     flex-wrap: wrap; /* Allow wrapping */
+}
+
+.file-upload-label,
+.manual-label {
+    color: var(--text-secondary);
+    font-weight: normal;
+    font-size: 0.95em;
+    margin-right: 8px;
+}
+
+#data-status,
+#manual-status,
+#scan-status {
+    font-style: italic;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+/* Status Colors */
+#data-status[style*="color: green"],
+#manual-status[style*="color: green"] { color: var(--success-color); }
+#data-status[style*="color: red"],
+#manual-status[style*="color: red"] { color: var(--error-color); }
+#data-status[style*="color: orange"],
+#manual-status[style*="color: orange"] { color: var(--warning-color); }
+
+.manual-entry-area {
+    display: flex; /* Align items nicely */
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+#manualBarcode {
+    padding: 9px 12px;
+    margin-right: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    min-width: 200px; /* Give it more width */
+    background-color: var(--bg-main); /* Darker input background */
+    color: var(--text-primary);
+    font-size: 0.95em;
+}
+#manualBarcode::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+#manualBarcode:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.3);
+}
+
+/* Style file input slightly */
+input[type="file"] {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+input[type="file"]::file-selector-button {
+     background-color: var(--button-secondary-bg);
+     color: var(--text-primary);
+     border: none;
+     border-radius: 6px;
+     padding: 8px 12px;
+     cursor: pointer;
+     margin-right: 10px;
+     font-size: 0.9em;
+     transition: background-color 0.2s ease;
+}
+input[type="file"]::file-selector-button:hover {
+     background-color: var(--button-secondary-hover);
+}
+
+
+/* Buttons General */
+#scanButton, #clearButton, #stopScanButton, #exportPdfButton, #manualAddButton, #toggleWmsButton {
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 15px;
+    cursor: pointer;
+    margin: 5px 8px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    font-weight: 500;
+}
+#scanButton:active, #clearButton:active, #stopScanButton:active, #exportPdfButton:active, #manualAddButton:active, #toggleWmsButton:active {
+    transform: scale(0.98);
+}
+
+/* Primary Actions */
+#scanButton, #manualAddButton {
+  background-color: var(--accent-color);
+  color: var(--accent-text);
+}
+#scanButton:hover:not(:disabled), #manualAddButton:hover:not(:disabled) {
+   background-color: #E48A1A;
+   filter: brightness(1.1);
+}
+
+/* Secondary Actions */
+#clearButton, #exportPdfButton, #toggleWmsButton {
+    background-color: var(--button-secondary-bg);
+    color: var(--text-primary);
+}
+#clearButton:hover, #exportPdfButton:hover, #toggleWmsButton:hover {
+    background-color: var(--button-secondary-hover);
+}
+
+#stopScanButton {
+    background-color: #B91C1C;
+    color: var(--accent-text);
+    display: none;
+}
+#stopScanButton:hover {
+    background-color: #DC2626;
+}
+
+/* Disabled State */
+#scanButton:disabled, #manualAddButton:disabled, #toggleWmsButton:disabled {
+   background-color: var(--button-disabled-bg);
+   color: var(--button-disabled-text);
+   cursor: not-allowed;
+   transform: none;
+   filter: none;
+}
+
+.status-message {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 0.9em;
+    font-style: italic;
+    vertical-align: middle;
+}
+
+/* Scanned Items List */
+#scannedItemsList {
+    list-style: none;
+    padding: 0;
+    background-color: var(--bg-controls);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    max-width: 700px;
+    margin: 20px auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#scannedItemsList li {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    color: var(--text-primary);
+    font-size: 0.95em;
+}
+
+#scannedItemsList li:last-child {
+    border-bottom: none;
+}
+
+#scannedItemsList li span {
+    margin: 2px 5px;
+    word-break: break-word;
+}
+
+/* Barcode */
+#scannedItemsList li span:nth-child(1) {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    min-width: 100px;
+    flex-shrink: 0;
+}
+
+/* Product Name */
+.product-name {
+    flex-grow: 1;
+    font-weight: 500;
+    min-width: 150px;
+    text-align: left;
+    padding-right: 10px;
+}
+
+/* UOM */
+#scannedItemsList li span:nth-child(3) {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    min-width: 30px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Bin Code (in Replenish List - from CSV) */
+.product-bincode {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    min-width: 60px;
+    text-align: center;
+    flex-shrink: 0;
+    margin-left: 10px;
+}
+
+/* Scanner Container */
+#scanner-container {
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px dashed var(--border-color);
+    background-color: var(--bg-controls);
+    border-radius: 8px;
+    display: none;
+}
+#video {
+    border: 1px solid var(--border-color);
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px auto;
+}
+#scan-status {
+    margin-top: 10px;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+/* --- WMS Section Styles --- */
+
+#wms-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: var(--bg-controls);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+#wms-section h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+#wms-section h3 {
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.wms-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 25px;
+    margin-top: 15px;
+}
+
+.wms-assign-area,
+.wms-search-area {
+    flex: 1;
+    min-width: 320px;
+    max-width: 480px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-main);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.wms-input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.wms-input-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+.wms-input {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-size: 0.95em;
+    box-sizing: border-box;
+}
+.wms-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+.wms-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.3);
+}
+
+/* --- Refined WMS Button Styling --- */
+
+.wms-button, #closeWmsButton {
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 15px;
+    cursor: pointer;
+    margin: 5px 8px 5px 0;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    font-weight: 500;
+    display: inline-block;
+    vertical-align: middle;
+}
+.wms-button:active, #closeWmsButton:active {
+    transform: scale(0.98);
+}
+
+/* Primary WMS Actions (Assign, Search, Scan) */
+#wmsAssignButton, #wmsSearchButton, #wmsScanButton, .wms-assign-specific-button {
+  background-color: var(--accent-color);
+  color: var(--accent-text);
+}
+#wmsAssignButton:hover:not(:disabled),
+#wmsSearchButton:hover:not(:disabled),
+#wmsScanButton:hover:not(:disabled),
+.wms-assign-specific-button:hover:not(:disabled) {
+   background-color: #E48A1A;
+   filter: brightness(1.1);
+}
+
+/* Secondary WMS Action (Close) */
+#closeWmsButton {
+    background-color: var(--button-secondary-bg);
+    color: var(--text-primary);
+    float: right;
+    margin-top: -50px;
+    margin-right: 0;
+}
+#closeWmsButton:hover {
+    background-color: var(--button-secondary-hover);
+}
+
+/* Disabled State for WMS Buttons */
+#wmsAssignButton:disabled,
+#wmsSearchButton:disabled,
+#wmsScanButton:disabled,
+.wms-assign-specific-button:disabled {
+   background-color: var(--button-disabled-bg);
+   color: var(--button-disabled-text);
+   cursor: not-allowed;
+   transform: none;
+   filter: none;
+}
+
+/* Status messages styling */
+#wms-assign-status, #wms-search-status, .wms-assign-specific-status {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 0.9em;
+    font-style: italic;
+    vertical-align: middle;
+}
+
+/* WMS Status Colors */
+#wms-assign-status[style*="color: green"],
+#wms-search-status[style*="color: green"],
+.wms-assign-specific-status[style*="color: green"] { color: var(--success-color); }
+
+#wms-assign-status[style*="color: red"],
+#wms-search-status[style*="color: red"],
+.wms-assign-specific-status[style*="color: red"] { color: var(--error-color); }
+
+#wms-assign-status[style*="color: orange"],
+#wms-search-status[style*="color: orange"],
+.wms-assign-specific-status[style*="color: orange"] { color: var(--warning-color); }
+
+
+/* Search Results Area styling */
+#wms-search-results {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: var(--bg-controls);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    min-height: 80px;
+    color: var(--text-primary);
+    font-size: 0.95em;
+    text-align: left;
+}
+
+#wms-search-results p { /* Style for the placeholder text */
+    margin: 8px 0;
+    line-height: 1.4;
+    color: var(--text-secondary); /* Make placeholder less prominent */
+}
+
+#wms-search-results strong {
+    color: var(--accent-color);
+}
+
+#wms-search-results hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 10px 0;
+}
+
+/* Clear the float for elements following the close button */
+#wms-section::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* --- WMS Search Result Item Styles --- */
+
+.wms-result-item {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.wms-result-item:last-child {
+    border-bottom: none;
+}
+
+.wms-result-item p {
+    margin: 0 0 5px 0;
+    color: var(--text-primary);
+}
+.wms-result-item p strong {
+    font-weight: 500;
+}
+
+.wms-result-item .location-info {
+    display: block; /* Allow buttons to wrap below if needed */
+    margin-bottom: 5px; /* Space before buttons */
+    color: var(--text-secondary);
+}
+
+.wms-result-item .location-display strong {
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+/* Action buttons within search results */
+.wms-result-item .result-action-button { /* Common style for buttons in results */
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 13px;
+    cursor: pointer;
+    margin: 5px 5px 0 0; /* Add top margin for wrapping */
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    font-weight: 500;
+    vertical-align: middle;
+}
+.wms-result-item .result-action-button:active {
+    transform: scale(0.97);
+}
+
+/* Load to Form Button Style */
+.wms-result-item .load-to-form-button {
+    background-color: var(--button-secondary-bg);
+    color: var(--text-primary);
+}
+.wms-result-item .load-to-form-button:hover {
+    background-color: var(--button-secondary-hover);
+}
+
+/* Delete Button Style */
+.wms-result-item .delete-wms-button {
+    background-color: var(--error-color);
+    color: var(--accent-text);
+}
+.wms-result-item .delete-wms-button:hover {
+    filter: brightness(1.1);
+}
+
+/* Hide edit controls as they are not used inline anymore */
+.wms-result-item .edit-controls {
+    display: none;
+}
+
+
+/* --- Styles for Multiple Bin Assignment Rows --- */
+
+.wms-assign-area .wms-bin-assignment-row {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 8px; /* Space between elements in a row */
+    margin-bottom: 12px; /* Space between rows */
+    flex-wrap: wrap; /* Allow wrapping within a row if needed */
+}
+
+.wms-assign-area .wms-bin-assignment-row label {
+    flex-basis: 40px; /* Fixed width for labels like "Bin 1:" */
+    text-align: right;
+    margin-bottom: 0; /* Remove bottom margin as it's in a flex row */
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+.wms-assign-area .wms-bincode-input {
+    flex-grow: 1; /* Allow input to take available space */
+    min-width: 100px; /* Minimum width for the input */
+    padding: 6px 10px; /* Slightly smaller padding */
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-size: 0.9em;
+}
+.wms-assign-area .wms-bincode-input:focus {
+     outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 1px rgba(217, 119, 6, 0.3);
+}
+
+.wms-assign-area .wms-assign-specific-button {
+    padding: 6px 12px; /* Smaller button padding */
+    font-size: 14px; /* Slightly smaller font */
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+.wms-assign-area .wms-assign-specific-status {
+    flex-basis: 100%; /* Let status message take full width on wrap */
+    margin-left: 48px; /* Align status under the input/button area */
+    font-size: 0.85em;
+    margin-top: -5px; /* Pull status up slightly */
+    min-height: 1.2em; /* Reserve space for status */
+}
+
+/* Style for the new Clear Form button */
+#wmsClearFormButton {
+    /* Uses inline style for background/color, but can add hover here */
+}
+#wmsClearFormButton:hover {
+     background-color: var(--button-secondary-hover);
+}

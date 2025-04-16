@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOUNG YUEEN - Replenish & Locate</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1><strong>SOUNG YUEEN & CO LTD</strong><br>Replenish Product List & Location Management</h1>
+
+    <div class="controls">
+        <!-- File Upload -->
+        <div class="file-upload-area">
+             <label for="csvFile" class="file-upload-label">Load/Update Product Data CSV:</label>
+             <input type="file" id="csvFile" accept=".csv">
+             <span id="data-status"> (No data loaded)</span>
+        </div>
+
+        <!-- Manual Entry (for Replenish List) -->
+        <div class="manual-entry-area">
+            <label for="manualBarcode" class="manual-label">Enter Barcode (Replenish List):</label>
+            <input type="text" id="manualBarcode" placeholder="Type barcode...">
+            <button id="manualAddButton" disabled>Add to List</button>
+             <span id="manual-status" class="status-message"></span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons-area">
+             <button id="toggleWmsButton">Manage Warehouse Locations</button>
+            <button id="scanButton" disabled>Scan to Replenish List</button>
+            <button id="clearButton">Clear Replenish List</button>
+            <button id="exportPdfButton">Export Replenish List PDF</button>
+        </div>
+    </div>
+
+    <!-- WAREHOUSE MANAGEMENT SYSTEM SECTION (Initially Hidden) -->
+    <div id="wms-section" style="display: none;">
+        <h2>Warehouse Management</h2>
+        <button id="closeWmsButton" class="wms-button">Close WMS</button>
+
+        <div class="wms-container">
+            <!-- Assign/Update Location Area -->
+            <div class="wms-assign-area">
+                <h3>Assign/Update Product Location</h3>
+                 <button id="wmsScanButton" class="wms-button" disabled>Scan Barcode for WMS</button>
+                 <div class="wms-input-group"> <!-- Barcode Input -->
+                     <label for="wmsBarcode">Barcode:</label>
+                     <input type="text" id="wmsBarcode" class="wms-input" placeholder="Scan or type barcode...">
+                 </div>
+                 <div class="wms-input-group"> <!-- Product Code Input -->
+                     <label for="wmsProductCode">Product Code:</label>
+                     <input type="text" id="wmsProductCode" class="wms-input" placeholder="Enter Product Code...">
+                 </div>
+                 <div class="wms-input-group"> <!-- PO Number Input -->
+                     <label for="wmsPoNumber">Purchase Order No:</label>
+                     <input type="text" id="wmsPoNumber" class="wms-input" placeholder="Enter PO Number (Optional)...">
+                 </div>
+
+                 <hr style="border-color: var(--border-color); margin: 20px 0;">
+                 <p style="text-align: center; color: var(--text-secondary); font-size: 0.95em; margin-bottom: 15px;">Assign up to 10 Bin Codes (e.g., A01, H06):</p>
+
+                 <!-- Bin Assignment Row 1 -->
+                 <div class="wms-bin-assignment-row">
+                     <label for="wmsBinCode-1">Bin 1:</label>
+                     <input type="text" id="wmsBinCode-1" class="wms-bincode-input" placeholder="Bin Code...">
+                     <button id="wmsAssignButton-1" class="wms-assign-specific-button wms-button" data-index="1" disabled>Assign Bin 1</button>
+                     <span id="wmsAssignStatus-1" class="wms-assign-specific-status status-message"></span>
+                 </div>
+                 <!-- Bin Assignment Row 2 -->
+                 <div class="wms-bin-assignment-row">
+                     <label for="wmsBinCode-2">Bin 2:</label>
+                     <input type="text" id="wmsBinCode-2" class="wms-bincode-input" placeholder="Bin Code...">
+                     <button id="wmsAssignButton-2" class="wms-assign-specific-button wms-button" data-index="2" disabled>Assign Bin 2</button>
+                     <span id="wmsAssignStatus-2" class="wms-assign-specific-status status-message"></span>
+                 </div>
+                 <!-- Bin Assignment Row 3 -->
+                 <div class="wms-bin-assignment-row">
+                     <label for="wmsBinCode-3">Bin 3:</label>
+                     <input type="text" id="wmsBinCode-3" class="wms-bincode-input" placeholder="Bin Code...">
+                     <button id="wmsAssignButton-3" class="wms-assign-specific-button wms-button" data-index="3" disabled>Assign Bin 3</button>
+                     <span id="wmsAssignStatus-3" class="wms-assign-specific-status status-message"></span>
+                 </div>
+                 <!-- Bin Assignment Row 4 -->
+                 <div class="wms-bin-assignment-row">
+                     <label for="wmsBinCode-4">Bin 4:</label>
+                     <input type="text" id="wmsBinCode-4" class="wms-bincode-input" placeholder="Bin Code...">
+                     <button id="wmsAssignButton-4" class="wms-assign-specific-button wms-button" data-index="4" disabled>Assign Bin 4</button>
+                     <span id="wmsAssignStatus-4" class="wms-assign-specific-status status-message"></span>
+                 </div>
+                 <!-- Bin Assignment Row 5 -->
+                 <div class="wms-bin-assignment-row">
+                     <label for="wmsBinCode-5">Bin 5:</label>
+                     <input type="text" id="wmsBinCode-5" class="wms-bincode-input" placeholder="Bin Code...">
+                     <button id="wmsAssignButton-5" class="wms-assign-specific-button wms-button" data-index="5" disabled>Assign Bin 5</button>
+                     <span id="wmsAssignStatus-5" class="wms-assign-specific-status status-message"></span>
+                 </div>
+                 <!-- Bin Assignment Row 6 -->
+                 <div class="wms-bin-assignment-row">
+                     <label for="wmsBinCode-6">Bin 6:</label>
+                     <input type="text" id="wmsBinCode-6" class="wms-bincode-input" placeholder="Bin Code...">
+                     <button id="wmsAssignButton-6" class="wms-assign-specific-button wms-button" data-index="6" disabled>Assign Bin 6</button>
+                     <span id="wmsAssignStatus-6" class="wms-assign-specific-status status-message"></span>
+                 </div>
+                 <!-- Bin Assignment Row 7 -->
+                 <div class="wms-bin-assignment-row">
+                     <label for="wmsBinCode-7">Bin 7:</label>
+                     <input type="text" id="wmsBinCode-7" class="wms-bincode-input" placeholder="Bin Code...">
+                     <button id="wmsAssignButton-7" class="wms-assign-specific-button wms-button" data-index="7" disabled>Assign Bin 7</button>
+                     <span id="wmsAssignStatus-7" class="wms-assign-specific-status status-message"></span>
+                 </div>
+                 <!-- Bin Assignment Row 8 -->
+                 <div class="wms-bin-assignment-row">
+                     <label for="wmsBinCode-8">Bin 8:</label>
+                     <input type="text" id="wmsBinCode-8" class="wms-bincode-input" placeholder="Bin Code...">
+                     <button id="wmsAssignButton-8" class="wms-assign-specific-button wms-button" data-index="8" disabled>Assign Bin 8</button>
+                     <span id="wmsAssignStatus-8" class="wms-assign-specific-status status-message"></span>
+                 </div>
+                 <!-- Bin Assignment Row 9 -->
+                 <div class="wms-bin-assignment-row">
+                     <label for="wmsBinCode-9">Bin 9:</label>
+                     <input type="text" id="wmsBinCode-9" class="wms-bincode-input" placeholder="Bin Code...">
+                     <button id="wmsAssignButton-9" class="wms-assign-specific-button wms-button" data-index="9" disabled>Assign Bin 9</button>
+                     <span id="wmsAssignStatus-9" class="wms-assign-specific-status status-message"></span>
+                 </div>
+                 <!-- Bin Assignment Row 10 -->
+                 <div class="wms-bin-assignment-row">
+                     <label for="wmsBinCode-10">Bin 10:</label>
+                     <input type="text" id="wmsBinCode-10" class="wms-bincode-input" placeholder="Bin Code...">
+                     <button id="wmsAssignButton-10" class="wms-assign-specific-button wms-button" data-index="10" disabled>Assign Bin 10</button>
+                     <span id="wmsAssignStatus-10" class="wms-assign-specific-status status-message"></span>
+                 </div>
+
+                 <!-- ADDED CLEAR BUTTON -->
+                 <div style="text-align: right; margin-top: 15px;">
+                    <button id="wmsClearFormButton" class="wms-button" style="background-color: var(--button-secondary-bg); color: var(--text-primary);">Clear Form</button>
+                 </div>
+            </div>
+
+
+            <!-- Search Location Area -->
+            <div class="wms-search-area">
+                <h3>Search Product Location</h3>
+                 <div class="wms-input-group">
+                     <label for="wmsSearchBarcode">Search by Barcode:</label>
+                     <input type="text" id="wmsSearchBarcode" class="wms-input" placeholder="Scan or type barcode...">
+                 </div>
+                 <div class="wms-input-group">
+                     <label for="wmsSearchProductCode">Search by Product Code:</label>
+                     <input type="text" id="wmsSearchProductCode" class="wms-input" placeholder="Type Product Code...">
+                 </div>
+                 <button id="wmsSearchButton" class="wms-button" disabled>Search Bin</button>
+                 <span id="wms-search-status" class="status-message"></span>
+                 <div id="wms-search-results">
+                     <!-- Search results will be dynamically generated here -->
+                     <p>Enter Barcode or Product Code above and click Search.</p>
+                 </div>
+            </div>
+        </div>
+    </div>
+     <!-- End WMS Section -->
+
+
+    <!-- Video element for the scanner -->
+    <div id="scanner-container" style="display: none;">
+         <video id="video" width="300" height="200" style="border: 1px solid gray"></video>
+         <button id="stopScanButton">Stop Scan</button>
+         <p id="scan-status">Point camera at barcode...</p>
+    </div>
+
+
+    <h2>Replenish Items:</h2>
+    <ul id="scannedItemsList">
+        <!-- Scanned items will be added here by JavaScript -->
+    </ul>
+
+    <!-- Include Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest/umd/index.min.js"></script>
+    <!-- Include your custom script -->
+    <script src="script.js"></script>
+</body>
+</html>
